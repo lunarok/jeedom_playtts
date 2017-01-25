@@ -1,7 +1,7 @@
 '''
 === Konfiguration
 
-Il n'y a pas de configuration générale
+Es gibt keine allgemeine Konfiguration
 
 On ajoute un équipement pour lequel on saisit la langue qu'on souhaite utiliser et si c'est un déporté
 
