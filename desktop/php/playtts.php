@@ -66,6 +66,7 @@ $eqLogics = eqLogic::byType('playtts');
 </ul>
 <div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
   <div role="tabpanel" class="tab-pane active" id="eqlogictab">
+        <br/>
         <form class="form-horizontal">
           <fieldset>
             <div class="form-group">
@@ -217,6 +218,7 @@ $eqLogics = eqLogic::byType('playtts');
       </form>
     </div>
     <div role="tabpanel" class="tab-pane" id="commandtab">
+      <br/>
       <table id="table_cmd" class="table table-bordered table-condensed">
         <thead>
           <tr>
