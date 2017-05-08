@@ -26,7 +26,7 @@ fi
 
 echo "Ajout de www-data dans le groupe audio"
 echo 90 > /tmp/playtts_dep
-sudo usermod -a -G audio www-data
+sudo usermod -a -G audio `whoami`
 
 echo "Fin de l'installation"
 rm /tmp/playtts_dep
