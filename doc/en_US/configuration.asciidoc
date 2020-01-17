@@ -1,8 +1,0 @@
-'''
-=== Settings
-
-The plugin does not have general configuration.
-
-We add an equipment for which seized the language that you want to use and if it is a deportee
-
-Une action TTS et une lecture de morceau sont automatiquement créées

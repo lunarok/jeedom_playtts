@@ -1,9 +1,0 @@
-== PlayTTS
-
-'''
-=== Introduction
-include::presentation.asciidoc[]
-
-'''
-=== Settings
-include::configuration.asciidoc[]
