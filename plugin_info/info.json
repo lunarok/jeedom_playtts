@@ -4,7 +4,7 @@
 	"description" : "Ce plugin permet d'utiliser le TTS en local sur son jeedom mais également un Linux déporté. Une commande pour lire des fichiers audio est également présente, ce qui permet de lire des sons d'annonce par exemple et tout autre fichier.",
 	"licence" : "AGPL",
 	"author" : "lunarok",
-	"require" : "3.3.24",
+	"require" : "4.2",
 	"category" : "multimedia",
   "hasDependency" : 1,
 	"language" : ["fr_FR","en_US"],

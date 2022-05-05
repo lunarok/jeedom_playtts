@@ -20,27 +20,6 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class playtts extends eqLogic {
-
-	public static function dependancy_info() {
-    $return = array();
-    $return['log'] = 'playtts_dep';
-    $cmd = "dpkg -l | grep mplayer";
-    exec($cmd, $output, $return_var);
-    if (isset($output[0])) {
-			if (`which pico2wave`) {
-			    $return['state'] = 'ok';
-			} else {
-	      $return['state'] = 'nok';
-	    }
-    } else {
-      $return['state'] = 'nok';
-    }
-    return $return;
-  }
-  public static function dependancy_install() {
-    passthru('/bin/bash ' . realpath(dirname(__FILE__)) . '/../../resources/install.sh ' . realpath(dirname(__FILE__)) . '/../../resources/ > ' . log::getPathToLog('playtts_dep') . ' 2>&1 &');
-  }
-
 	public function preUpdate() {
 		if ($this->getConfiguration('maitreesclave') == '') {
 			throw new Exception(__('Merci de remplir le type de lecteur',__FILE__));
