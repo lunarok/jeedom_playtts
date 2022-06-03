@@ -9,6 +9,6 @@
       "software-properties-common" : {}
     },
     "post-install": {
-		"script":"plugins/dkron/resources/install.sh"
+		"script":"plugins/playtts/resources/install.sh"
 	}
   }
