@@ -7,7 +7,7 @@ echo 0 > /tmp/playtts_dep
 echo "Installation PicoTTS"
 echo 70 > /tmp/playtts_dep
 arch=`arch`;
-if [[ $arch == "armv6l" || $arch == "armv7l" ]]
+if [[ $arch == "armv6l" || $arch == "armv7l"  || $arch == "aarch64" ]]
   then
     sudo apt-get install -y libsox-fmt-mp3 sox
     sudo dpkg -i libttspico-data_1.0+git20130326-3_all.deb
