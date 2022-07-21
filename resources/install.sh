@@ -4,6 +4,10 @@ touch /tmp/playtts_dep
 echo "Début de l'installation"
 echo 0 > /tmp/playtts_dep
 
+echo "Installation mplayer"
+echo 30 > /tmp/playtts_dep
+sudo apt-get install -y -q mplayer mpg123 lsb-release software-properties-common
+
 echo "Installation PicoTTS"
 echo 70 > /tmp/playtts_dep
 arch=`arch`;

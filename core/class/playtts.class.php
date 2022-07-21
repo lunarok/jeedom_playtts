@@ -37,6 +37,9 @@ class playtts extends eqLogic {
 		return $return;
 	  }
 	  public static function dependancy_install() {
+		log::remove(__CLASS__ .'_dep');
+		config::save('lastDependancyInstallTime', date('Y-m-d H:i:s'), __CLASS__);
+		$resource_path = realpath(__DIR__ . '/../../resources');
 		passthru('/bin/bash ' . realpath(dirname(__FILE__)) . '/../../resources/install.sh ' . realpath(dirname(__FILE__)) . '/../../resources/ > ' . log::getPathToLog('playtts_dep') . ' 2>&1 &');
 	  }
 
