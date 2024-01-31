@@ -10,10 +10,19 @@ sudo apt-get install -y -q mplayer mpg123 lsb-release software-properties-common
 
 echo "Installation PicoTTS"
 echo 70 > /tmp/playtts_dep
-sudo add-apt-repository non-free
-sudo add-apt-repository contrib
-sudo apt-get update
-sudo apt-get install -y libsox-fmt-mp3 sox libttspico-utils
+arch=`arch`;
+if [[ $arch == "armv6l" || $arch == "armv7l"  || $arch == "aarch64" ]]
+  then
+    sudo apt-get install -y libsox-fmt-mp3 sox
+    sudo dpkg -i libttspico-data_1.0+git20130326-3_all.deb
+    sudo dpkg -i libttspico0_1.0+git20130326-3_armhf.deb
+    sudo dpkg -i libttspico-utils_1.0+git20130326-3_armhf.deb
+  else
+    sudo add-apt-repository non-free
+    sudo add-apt-repository contrib
+    sudo apt-get update
+    sudo apt-get install -y libsox-fmt-mp3 sox libttspico-utils
+fi
 
 echo "Ajout de www-data dans le groupe audio"
 echo 90 > /tmp/playtts_dep
