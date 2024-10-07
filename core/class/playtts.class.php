@@ -106,7 +106,7 @@ class playtts extends eqLogic {
 		}
 	}
 
-	public function sendCommand($id, $type, $option) {
+	public static function sendCommand($id, $type, $option) {
 		log::add('playtts', 'debug', 'Lecture : ' . $type . ' ' . $option);
 		$playtts = self::byId($id, 'playtts');
 		if ($type == 'tts') {
