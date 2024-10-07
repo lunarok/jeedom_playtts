@@ -26,31 +26,31 @@ class playtts extends eqLogic {
 		$cmd = "dpkg -l | grep mplayer";
 		exec($cmd, $output, $return_var);
 		if (isset($output[0])) {
-				if (`which pico2wave`) {
-					$return['state'] = 'ok';
-				} else {
-			  $return['state'] = 'nok';
+			if (`which pico2wave`) {
+				$return['state'] = 'ok';
+			} else {
+				$return['state'] = 'nok';
 			}
 		} else {
-		  $return['state'] = 'nok';
+			$return['state'] = 'nok';
 		}
 		return $return;
-	  }
-	  public static function dependancy_install() {
-		log::remove(__CLASS__ .'_dep');
+	}
+	public static function dependancy_install() {
+		log::remove(__CLASS__ . '_dep');
 		config::save('lastDependancyInstallTime', date('Y-m-d H:i:s'), __CLASS__);
 		$resource_path = realpath(__DIR__ . '/../../resources');
 		passthru('/bin/bash ' . realpath(dirname(__FILE__)) . '/../../resources/install.sh ' . realpath(dirname(__FILE__)) . '/../../resources/ > ' . log::getPathToLog('playtts_dep') . ' 2>&1 &');
-	  }
+	}
 
 	public function preUpdate() {
 		if ($this->getConfiguration('maitreesclave') == '') {
-			throw new Exception(__('Merci de remplir le type de lecteur',__FILE__));
+			throw new Exception(__('Merci de remplir le type de lecteur', __FILE__));
 		}
 	}
 
 	public function postUpdate() {
-		$playttsCmd = playttsCmd::byEqLogicIdAndLogicalId($this->getId(),'tts');
+		$playttsCmd = playttsCmd::byEqLogicIdAndLogicalId($this->getId(), 'tts');
 		if (!is_object($playttsCmd)) {
 			log::add('playtts', 'debug', 'Création de la commande TTS');
 			$playttsCmd = new playttsCmd();
@@ -62,7 +62,7 @@ class playtts extends eqLogic {
 			$playttsCmd->setSubType('message');
 			$playttsCmd->save();
 		}
-		$playttsCmd = playttsCmd::byEqLogicIdAndLogicalId($this->getId(),'play');
+		$playttsCmd = playttsCmd::byEqLogicIdAndLogicalId($this->getId(), 'play');
 		if (!is_object($playttsCmd)) {
 			log::add('playtts', 'debug', 'Création de la commande Play');
 			$playttsCmd = new playttsCmd();
@@ -74,22 +74,21 @@ class playtts extends eqLogic {
 			$playttsCmd->setSubType('message');
 			$playttsCmd->save();
 		}
-
 	}
 
 	public function postSave() {
 
-		if ($this->getConfiguration('maitreesclave') == 'deporte'){
-			$ip=$this->getConfiguration('addressip');
-			$port=$this->getConfiguration('portssh');
-			$user=$this->getConfiguration('user');
-			$pass=$this->getConfiguration('password');
-			if (!$connection = ssh2_connect($ip,$port)) {
+		if ($this->getConfiguration('maitreesclave') == 'deporte') {
+			$ip = $this->getConfiguration('addressip');
+			$port = $this->getConfiguration('portssh');
+			$user = $this->getConfiguration('user');
+			$pass = $this->getConfiguration('password');
+			if (!$connection = ssh2_connect($ip, $port)) {
 				log::add('playtts', 'error', 'connexion SSH KO');
-			}else{
-				if (!ssh2_auth_password($connection,$user,$pass)){
+			} else {
+				if (!ssh2_auth_password($connection, $user, $pass)) {
 					log::add('playtts', 'error', 'Authentification SSH KO');
-				}else{
+				} else {
 					log::add('playtts', 'debug', 'Dépendances en SSH');
 					ssh2_scp_send($connection, realpath(dirname(__FILE__)) . '/../../resources/libttspico-data_1.0+git20130326-3_all.deb', '/tmp/libttspico-data_1.0+git20130326-3_all.deb', 0755);
 					ssh2_scp_send($connection, realpath(dirname(__FILE__)) . '/../../resources/libttspico0_1.0+git20130326-3_armhf.deb', '/tmp/libttspico0_1.0+git20130326-3_armhf.deb', 0755);
@@ -107,7 +106,7 @@ class playtts extends eqLogic {
 		}
 	}
 
-	public function sendCommand( $id, $type, $option ) {
+	public static function sendCommand($id, $type, $option) {
 		log::add('playtts', 'debug', 'Lecture : ' . $type . ' ' . $option);
 		$playtts = self::byId($id, 'playtts');
 		if ($type == 'tts') {
@@ -117,32 +116,32 @@ class playtts extends eqLogic {
 			$file = $option;
 		}
 		log::add('playtts', 'debug', 'File : ' .  $file);
-		if ($playtts->getConfiguration('maitreesclave') == 'deporte'){
-			$ip=$playtts->getConfiguration('addressip');
-			$port=$playtts->getConfiguration('portssh');
-			$user=$playtts->getConfiguration('user');
-			$pass=$playtts->getConfiguration('password');
-			if (!$connection = ssh2_connect($ip,$port)) {
+		if ($playtts->getConfiguration('maitreesclave') == 'deporte') {
+			$ip = $playtts->getConfiguration('addressip');
+			$port = $playtts->getConfiguration('portssh');
+			$user = $playtts->getConfiguration('user');
+			$pass = $playtts->getConfiguration('password');
+			if (!$connection = ssh2_connect($ip, $port)) {
 				log::add('playtts', 'error', 'connexion SSH KO');
-			}else{
-				if (!ssh2_auth_password($connection,$user,$pass)){
+			} else {
+				if (!ssh2_auth_password($connection, $user, $pass)) {
 					log::add('playtts', 'error', 'Authentification SSH KO');
-				}else{
+				} else {
 					log::add('playtts', 'debug', 'Commande par SSH');
 					if ($type == 'tts') {
 						$lang = $playtts->getConfiguration('lang');
 						if ($lang == '') {
 							$lang == 'fr-FR';
 						}
-						$pico = ssh2_exec($connection,"pico2wave -l " . $lang . " -w /tmp/voice.wav \"" . $option . "\"");						
+						$pico = ssh2_exec($connection, "pico2wave -l " . $lang . " -w /tmp/voice.wav \"" . $option . "\"");
 						stream_set_blocking($pico, true);
-						$result = stream_get_contents($pico);						
-						
-						$sox = ssh2_exec($connection,"sox /tmp/voice.wav -r 48k " . $file);
+						$result = stream_get_contents($pico);
+
+						$sox = ssh2_exec($connection, "sox /tmp/voice.wav -r 48k " . $file);
 						stream_set_blocking($sox, true);
-						$result = stream_get_contents($sox);						
+						$result = stream_get_contents($sox);
 					}
-					$result = ssh2_exec($connection,'mplayer ' . $playtts->getConfiguration('opt') . ' ' . $file);
+					$result = ssh2_exec($connection, 'mplayer ' . $playtts->getConfiguration('opt') . ' ' . $file);
 					stream_set_blocking($result, true);
 					$result = stream_get_contents($result);
 
@@ -151,7 +150,7 @@ class playtts extends eqLogic {
 					stream_get_contents($closesession);
 				}
 			}
-		}else {
+		} else {
 			if (!file_exists($file)) {
 				if ($type == 'tts') {
 					$lang = $playtts->getConfiguration('lang');
@@ -169,7 +168,6 @@ class playtts extends eqLogic {
 			exec('mplayer ' . $playtts->getConfiguration('opt') . ' ' . $file);
 		}
 	}
-
 }
 
 class playttsCmd extends cmd {
@@ -187,5 +185,3 @@ class playttsCmd extends cmd {
 		return true;
 	}
 }
-
-?>
